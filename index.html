@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product App</title>
+    <link rel="stylesheet" href="product_style.css" type="text/css">
+</head>
+<body>
+    <div class="nav-bar"></div>
+
+    <div id="app">
+        <div class="product">
+            <div class="product-image">
+                <img v-bind:src="image" :alt="title" :title="title">
+            </div>
+
+            <div class="product-info">
+                <h1>{{ productTitle }}</h1>
+                <h2>{{ description }}</h2>
+
+                <p v-if="inStock > 10">In stock</p>
+                <p v-else-if="inStock <= 10 && inStock > 0">Almost sold out!</p>
+                <p v-else>Out of stock</p>
+
+                <ul>
+                    <li v-for="detail in details">{{ detail }}</li>
+                </ul>
+
+                <div v-for="(variant, index) in variants"
+                     :key="variant.Id"
+                    class="color-box"
+                     :style="{backgroundColor: variant.color}"
+                     @mouseover="updateProduct(index)"
+                ></div>
+
+                <button v-on:click="addToCart"
+                        :disabled="!inStock"
+                        :class="{ disabledButton: !inStock }"
+                >Add to Cart</button>
+                <div class="cart">
+                    <p>Cart({{ cart }})</p>
+                    <p>In Stock({{ inStock }})</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="main.js"></script>
+</body>
+</html>
